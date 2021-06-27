@@ -1,6 +1,6 @@
 var url = window.location.hostname.includes("localhost")
   ? "http://localhost:8080/"
-  : "https://restserver-curso-fher.herokuapp.com/api/auth/google";
+  : "https://board-project-sw.herokuapp.com/";
 
 function onSignIn(googleUser) {
   console.log("EN ONSIGNIN");

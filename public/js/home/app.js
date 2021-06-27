@@ -1,6 +1,6 @@
 var url = window.location.hostname.includes("localhost")
   ? "http://localhost:8080/"
-  : "https://restserver-curso-fher.herokuapp.com/api/auth/google";
+  : "https://board-project-sw.herokuapp.com/";
 
 const crear = document.getElementById("create");
 const logout = document.getElementById("logout");
@@ -28,10 +28,10 @@ logout.addEventListener("click", (e) => {
   axios
     .post(url + "logout", { withCredentials: true })
     .then((then) => {
-      if(typeof signOut === 'function') {
+      if (typeof signOut === "function") {
         //Es seguro ejecutar la función
         signOut();
-    }
+      }
       window.location = "/signin";
     })
     .catch((e) => {
