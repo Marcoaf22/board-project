@@ -118,6 +118,7 @@ class Server {
 
   listen() {
     this.serverIO.listen(this.port, () => {
+      console.log("Test heroku");
       console.log("Servidor corriendo en puerto", this.port);
     });
   }
