@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sesion</title>
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  {{!--
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
+  --}}
+  <!-- JavaScript -->
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+
+  {{!-- BOOTSTRAP --}}
+  {{!--
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
+    crossorigin="anonymous"></script> --}}
+
+  {{!-- GOJS DEBUG --}}
+  {{!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/2.1.43/go-debug.js"
+    integrity="sha512-1t6QqPSIE3y/NCtfeuQt5GfVeGAgXpMPjbZqxi5aMDWXGyCLX6hCbiLU4m5Rfx3HbD97NeXeEJwIcXHqoWpGpg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
+  {{!-- JOINTJS CDN --}}
+  {{!--
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.4.0/backbone.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jointjs/3.3.1/joint.js"></script> --}}
+
+  <!-- SOCKET-CLIENT-->
+  <script src="/socket.io/socket.io.js"></script>
+
+</head>
+
+<body>
+  <h1>La sesion de hoy</h1>
+  <button id="btn"> A Json</button>
+  <button id="btn2"> Cargar</button>
+  <button id="btn3"> Guardar Diagrama</button>
+  <button id="btn4"> Cargar Diagrama</button>
+  <!-- content -->
+  {{!-- <div id="sample">
+    <div id="myFlexDiv">
+      <div id="myGuests" style="border: solid 1px black"></div>
+
+      <div id="myDiagramDiv" style="border: solid 1px black"></div>
+    </div>
+    This sample demonstrates how a "Person" node can be dropped onto a "Table" node,
+    causing the person to be assigned a position at the closest empty seat at that table.
+    When a person is dropped into the background of the diagram, that person is no longer assigned a seat.
+    People dragged between diagrams are automatically removed from the diagram they came from.
+    <p>
+      "Table" nodes are defined by separate templates, to permit maximum customization of the shapes and
+      sizes and positions of the tables and chairs.
+    <p>
+      "Person" nodes in the <code>myGuests</code> diagram can also represent a group of people,
+      for example a named person plus one whose name might not be known.
+      When such a person is dropped onto a table, additional nodes are created in <code>myDiagram</code>.
+      Those people are seated at the table if there is room.
+    <p>
+      Tables can be moved or rotated. Moving or rotating a table automatically repositions the people seated at that
+      table.
+    <p>
+      The <a>UndoManager</a> is shared between the two Diagrams, so that one can undo/redo in either diagram
+      and have it automatically handle drags between diagrams, as well as the usual changes within the diagram.
+    </p>
+    <div>
+      Diagram Model saved in JSON format, automatically updated after each transaction:
+      <pre id="savedModel" style="height:250px"></pre>
+    </div>
+  </div> --}}
+
+  <div id="myDiagramDiv" style="border: solid 1px black; width:400px; height:400px"></div>
+  {{!-- <div class="board" id="paper"></div> --}}
+  {{!-- <div class="board" id="myholder"></div> --}}
+
+
+  {{!--
+  <script src="/js/uml.js"></script> --}}
+  {{!--
+  <script src="/js/test-gojs.js"></script> --}}
+
+
+  <!-- code -->
+  <script type="text/javascript">
+    // var socket = io();
+    var user = '{{ _id }}'
+    //console.log(user)
+  </script>
+
+  {{!-- BOOTSTRAP --}}
+  {{!--
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script> --}}
+
+  <script src="/js/main.js"></script>
+  <script src="/js/home/socket-client.js"></script>
+  <script src="/js/home/basic_gojs.js"></script>
+  <script src="/js/home/events.js"></script>
+  {{!--
+  <script src="/js/home/joint.js"></script> --}}
+</body>
+
+</html>

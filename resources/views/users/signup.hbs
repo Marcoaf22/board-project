@@ -1,0 +1,82 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-signin-client_id"
+    content="470327454511-7f8fpjerqbhpjkg6qlj7j7acnif9pfjp.apps.googleusercontent.com" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <title>Registrar</title>
+</head>
+
+<body>
+  <div
+    class="relative min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 bg-gray-500 bg-no-repeat bg-cover relative items-center"
+    style="background-image: url(https://images.unsplash.com/photo-1525302220185-c387a117886e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80);">
+    <div class="absolute bg-black opacity-60 inset-0 z-0"></div>
+    <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-xl z-10">
+      <div class="text-center">
+        <h2 class="mt-3 text-3xl font-bold text-gray-900">
+          Bienvenido!
+        </h2>
+        <p class="mt-2 text-sm text-gray-600">Please sign in to your account</p>
+      </div>
+      <div class="flex flex-row justify-center items-center space-x-3">
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
+      <div class="flex items-center justify-center space-x-2">
+        <span class="h-px w-16 bg-gray-300"></span>
+        <span class="text-gray-500 font-normal">OR</span>
+        <span class="h-px w-16 bg-gray-300"></span>
+      </div>
+      <form class="mt-2 space-y-6" action="/signup" method="POST">
+        <div class="mt-2 content-center">
+          <label class="text-sm font-bold text-gray-700 tracking-wide">
+            Nombre
+          </label>
+          <input name="name"
+            class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+            type="" placeholder="Enter your password" />
+        </div>
+        <div class="relative">
+          <label class="text-sm font-bold text-gray-700 tracking-wide">Email</label>
+          <input class="w-full text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+            type="" placeholder="mail@gmail.com" name="email" />
+        </div>
+        <div class="mt-2 content-center">
+          <label class="text-sm font-bold text-gray-700 tracking-wide">
+            Contraseñá
+          </label>
+          <input
+            class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+            type="" placeholder="Ingrese su contraseñá" name="password" />
+        </div>
+        <div class="mt-2 content-center">
+          <label class="text-sm font-bold text-gray-700 tracking-wide">
+            Confirmar Contraseñá
+          </label>
+          <input
+            class="w-full content-center text-base py-2 border-b border-gray-300 focus:outline-none focus:border-indigo-500"
+            type="" placeholder="Enter your password" />
+        </div>
+
+        <div>
+          <button type="submit"
+            class="w-full flex justify-center bg-indigo-500 text-gray-100 p-4 rounded-full tracking-wide font-semibold focus:outline-none focus:shadow-outline hover:bg-indigo-600 shadow-lg cursor-pointer transition ease-in duration-300">
+            Sign in
+          </button>
+        </div>
+        <p class="flex flex-col items-center justify-center mt-0 text-center text-md text-gray-500">
+          <span>¿Tienes una cuenta?</span>
+          <a href="/signin"
+            class="text-indigo-500 hover:text-indigo-500no-underline hover:underline cursor-pointer transition ease-in duration-300">Ingresa</a>
+        </p>
+      </form>
+    </div>
+  </div>
+  <script src="/js/sign_google.js"></script>
+</body>
+
+</html>
