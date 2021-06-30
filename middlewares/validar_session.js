@@ -22,11 +22,6 @@ const validar_session = async (req = request, res = response, next) => {
     return res.render("404");
     // next("404");
   }
-
-  console.log(typeof session.active);
-  if (session.active) {
-    return res.redirect("404");
-  }
   req.sesion = session;
   console.log("TERMINANDO DE VALIDAR SESION");
   next();

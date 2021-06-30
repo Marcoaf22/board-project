@@ -3,7 +3,7 @@ var url = window.location.hostname.includes("localhost")
   : "https://board-project-sw.herokuapp.com/";
 
 function onSignIn(googleUser) {
-  console.log("EN ONSIGNIN");
+  // console.log("EN ONSIGNIN");
   var profile = googleUser.getBasicProfile();
   // console.log("ID: " + profile.getId()); // Do not send to your backend! Use an ID token instead.
   // console.log("Name: " + profile.getName());
@@ -27,7 +27,7 @@ function onSignIn(googleUser) {
   //   });
 
   form.action = "/signin_google";
-  console.log(data);
+  // console.log(data);
   input.value = data.id_token;
   const ur = "http://localhost:8080/signin_google";
 

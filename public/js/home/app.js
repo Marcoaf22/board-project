@@ -7,7 +7,7 @@ const logout = document.getElementById("logout");
 
 crear.addEventListener("click", (e) => {
   // user.token = token;
-  console.log("click en el button");
+  // console.log("click en el button");
   axios
     .get(url + "session/create/now", { withCredentials: true })
     .then((res) => {
@@ -23,11 +23,11 @@ crear.addEventListener("click", (e) => {
 });
 
 logout.addEventListener("click", (e) => {
-  console.log("Click en logout");
+  // console.log("Click en logout");
   axios
     .post(url + "logout", { withCredentials: true })
     .then((then) => {
-      console.log("evaluando");
+      // console.log("evaluando");
       // if (typeof signOut === "function") {
       signOut();
       // }
