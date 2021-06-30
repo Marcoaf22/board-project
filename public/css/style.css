@@ -1,4 +1,6 @@
 .board {
   border: 2px solid black ;
 }
-.ajs-message.ajs-custom { color: #f3f3f3;  background-color: #65b49c;  border-color: #000000; }
+.ajs-message.ajs-custom { color: #f3f3f3;  background-color: #01b619;  border-color: #000000; }
+
+.ajs-message.ajs-custo2 { color: #f3f3f3;  background-color: #be1d1d;  border-color: #000000; }

@@ -35,8 +35,31 @@ document.getElementById("btn2").addEventListener("click", (e) => {
 console.log(socket);
 console.log(socket.id);
 socket.on("login", (data) => {
-  // alertify.success(data.user + " se ha unido");
-  alertify.notify(data.user + " se ha unido", "custom", 2, function () {
-    console.log("dismissed");
+  alertify.notify(data.user + " se ha unido", "custom", 2);
+  //   // console.log("dismissed");
+
+  // });
+
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    background: "#FF0000",
+    textColor: "#ffffff",
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
   });
+
+  Toast.fire({
+    title: "Signed in successfully",
+  });
+});
+
+socket.on("logout", (data) => {
+  // alertify.success(data.user + " se ha unido");
+  alertify.error(data.user + " se ha salido");
 });

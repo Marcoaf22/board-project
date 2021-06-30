@@ -3,44 +3,61 @@ const {
   getSession,
   saveDiagram,
   getDiagrams,
+  sessionFinish,
 } = require("../helpers/generar-jwt");
 
 const socketController = (io) => {
-  var diagram;
-  let numUser = 0;
   io.on("connection", async (socket) => {
     let uid = socket.handshake.auth.uid;
     let room = socket.handshake.auth.room;
-    const { name, _id, email } = await getUser(uid);
+    const { name } = await getUser(uid);
     const session = await getSession(room);
-    let anfitrion = uid == session.user_id;
-    console.log("Cliente " + name + " conectado, Anfitrion: ", anfitrion);
+    // let isAnfitrion = uid == session.user_id;
+    socket.isAnfitrion = uid == session.user_id;
+    socket.name = name;
+    console.log(
+      "Cliente " + name + " conectado, Anfitrion: ",
+      socket.isAnfitrion
+    );
+
+    // io.on("testo", (hola) => {
+    //   console.log("ESCUCHANDO EVENTO: ISANFITRION - ", socket.name);
+    //   console.log(hola);
+    // });
 
     socket.join(room);
 
     //A LOS USUARIOS SE LE ENVIA EL DIAGRAMA
-    if (!anfitrion) {
-      console.log("ENVIANDO DIAGRAMA");
+    if (!socket.isAnfitrion) {
+      console.log("EVENTO: CARGAR_DIAGRAMA - ", socket.name);
       socket.on("cargar_diagrama", (callback) => {
         console.log("ESCUCHANDO DESDE LE SERVIDOR CARGAR DIAGRAMA");
         callback(io.diagrama);
       });
+
       // io.to('room')("cargar_diagrama", (callback) => {
       //   callback(io.diagrama);
       // });
     }
 
+    socket.emit("isAnfitrion", { data: socket.isAnfitrion });
+
+    console.log("DEFINIENDO EL EVENTO TESTO");
+    socket.on("testo", async (data) => {
+      console.log("escuchando testo");
+      console.log(data);
+    });
+
     socket.on("select diagrama", (data) => {
-      if (anfitrion) {
+      if (socket.isAnfitrion) {
         console.log("DESDE SELECT DIAGRAM");
-        s;
         io.diagrama = data;
         socket.to(room).emit("nuevo diagrama", io.diagrama);
       }
     });
 
     socket.on("diagrama", (lastChanged, complet) => {
-      console.log("ESCUCHANDO DIAGRAMA");
+      console.log("EVENTO: DIAGRAMA - ", socket.name);
       io.diagrama = complet;
       socket.to(room).emit("diagrama", lastChanged);
     });
@@ -63,13 +80,22 @@ const socketController = (io) => {
       });
     });
 
-    socket.to(room).emit("addUser", { name, numUser });
+    // console.log(socket);
 
-    socket.on("disconnect", () => {
-      socket.to(room).emit("logout", { username: name, uid: uid });
+    socket.to(room).emit("addUser", { name });
 
-      console.log("Cliente desconectado");
+    socket.on("disconnect", async () => {
+      if (socket.isAnfitrion) {
+        await sessionFinish(room);
+        console.log("Finalizando la session: ", room);
+      }
+      socket
+        .to(room)
+        .emit("logout", { user: name, uid: uid, exit: socket.isAnfitrion });
+      console.log("Cliente desconectado - ", socket.name);
     });
+
+    console.log("FIN DE SOCKET");
   });
 };
 

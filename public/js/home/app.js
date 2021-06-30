@@ -24,14 +24,13 @@ crear.addEventListener("click", (e) => {
 
 logout.addEventListener("click", (e) => {
   console.log("Click en logout");
-  // onLoad();
   axios
     .post(url + "logout", { withCredentials: true })
     .then((then) => {
-      if (typeof signOut === "function") {
-        //Es seguro ejecutar la función
-        signOut();
-      }
+      console.log("evaluando");
+      // if (typeof signOut === "function") {
+      signOut();
+      // }
       window.location = "/signin";
     })
     .catch((e) => {

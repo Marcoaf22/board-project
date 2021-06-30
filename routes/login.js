@@ -82,7 +82,7 @@ router.post("/signin", async (req, res) => {
     req.session.token = token;
     req.session.isGoogle = false;
     console.log("REDIRIGIENDO A HOME");
-    console.log(req.session);
+    // console.log(req.session);
     res.redirect("/home");
   } catch (error) {
     console.log(error);

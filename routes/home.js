@@ -8,7 +8,8 @@ const router = Router();
 
 router.get("/", validate_user_session, (req, res) => {
   console.log("GET HOME");
-  res.render("home", { user: req.user, isGoogle: req.session.isGoogle });
+  let isGoogle = req.session.isGoogle ? req.session.isGoogle : false;
+  res.render("home", { user: req.user, isGoogle: isGoogle });
 });
 
 module.exports = router;

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- STYLE -->
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Alertyfy -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+  <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+  <!--BOOTSTRAP -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <!-- GOJS DEBUG  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gojs/2.1.43/go-debug.js"
+    integrity="sha512-1t6QqPSIE3y/NCtfeuQt5GfVeGAgXpMPjbZqxi5aMDWXGyCLX6hCbiLU4m5Rfx3HbD97NeXeEJwIcXHqoWpGpg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://kit.fontawesome.com/af78f96a3d.js" crossorigin="anonymous"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="p-4 w-full">
+    <div id="sample">
+
+      <!-- MENU SUPERIOR -->
+      <div class="flex flex-wrap" style="width: 80%;  justify-content: space-between">
+        <div id="menu" class="flex justify-end w-full bg-gray-500 h-10 mb-1">
+
+          <button class="py-1 px-2 m-1 font-semibold rounded-lg shadow-md text-white bg-red-700 hover:bg-green-700"
+            id="btnExit"><i class="fas fa-save"></i> Salir</button>
+          <button class="py-1 px-2 m-1 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
+            id="btnSave"><i class="fas fa-save"></i> Guardar</button>
+          {{#if anfitrion}}
+          <button class="py-1 px-2 m-1 font-semibold rounded-lg shadow-md text-white bg-green-500 hover:bg-green-700"
+            id="btnLoad"><i class="fas fa-cloud-download-alt"></i> Cargar </button>
+          {{/if}}
+          <div class="btn-group">
+            <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              Guardar como
+            </button>
+            <div class="dropdown-menu">
+              <a class="dropdown-item" id="saveImage">Imagen</a>
+              <a class="dropdown-item" id="saveSVG">SVG</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- PALETA -->
+        <div id="myPaletteDiv" class="bg-white border-2 border-gray-800" style="width: 300px; margin-right: 2px;">
+          <button class="w-full bg-white mb-1" type="button" data-toggle="collapse" data-target="#menu0"
+            aria-expanded="false" aria-controls="menu0">
+            Button with data-target
+          </button>
+          <div class="collapse" id="menu0">
+            <div class="bg-red-500">
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad consequatur repellendus fuga sint
+                consequuntur beatae quibusdam eaque nostrum praesentium sunt. Nam saepe modi quo pariatur maiores sint
+                consectetur eum quasi.</p>
+            </div>
+          </div>
+          <button class="w-full bg-gray-500 mb-1" type="button" data-toggle="collapse" data-target="#menu1"
+            aria-expanded="false" aria-controls="menu1">
+            Button with data-target
+          </button>
+          <div class="collapse" id="menu1">
+            <div class="bg-red-500">
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad consequatur repellendus fuga sint
+                consequuntur beatae quibusdam eaque nostrum praesentium sunt. Nam saepe modi quo pariatur maiores sint
+                consectetur eum quasi.</p>
+            </div>
+          </div>
+          <button class="w-full bg-gray-500 mb-1" type="button" data-toggle="collapse" data-target="#menu2"
+            aria-expanded="false" aria-controls="menu2">
+            Button with data-target
+          </button>
+          <div class="collapse" id="menu2">
+            <div class="bg-red-500">
+              <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Ad consequatur repellendus fuga sint
+                consequuntur beatae quibusdam eaque nostrum praesentium sunt. Nam saepe modi quo pariatur maiores sint
+                consectetur eum quasi.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- DIAGRAMA -->
+        <div id="myDiagramDiv" class="bg-white border-2 border-gray-800" style="flex-grow: 1; height: 750px;"></div>
+      </div>
+
+      <button class="btn bg-red" id="SaveButton" onclick="save()">Save</button>
+      <button class="btn bg-red" onclick="load()">Load</button>
+      Diagram Model saved in JSON format:
+      <textarea id="mySavedModel" style="width: 100%; height: 300px">
+{ 
+  { "class": "GraphLinksModel",
+  "nodeDataArray": [
+{"category":"System","text":"Sistema","key":-3,"loc":"-357 440"},
+{"category":"Person","text":"Person","key":-2,"loc":"143 250"}
+],
+  "linkDataArray": []}
+}
+</textarea>
+    </div>
+
+    <!-- BOOTSTRAP -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+      integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+      crossorigin="anonymous"></script>
+    <!-- SOCKET-CLIENT-->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/session/all_gojs.js"></script>
+    <script>
+      var url = window.location.hostname.includes("localhost")
+        ? "http://localhost:8080/"
+        : "https://board-project-sw.herokuapp.com/";
+
+      console.log("DESDE SOCKET-CLIENT.JS");
+      var socket = io({
+        auth: {
+          room: window.location.pathname.split("/")[2],
+          uid: '{{ user }}',
+        },
+      });
+      init(socket)
+    </script>
+
+</body>
+
+</html>

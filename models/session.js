@@ -13,12 +13,13 @@ const SessionSchema = Schema({
     type: String,
     required: [true, "El codigo es necesario"],
   },
+  date_init: {
+    type: Date,
+    default: Date.now(),
+  },
+  date_finish: {
+    type: Date,
+  },
 });
-
-// UsuarioSchema.methods.toJSON = function () {
-//   const { __v, password, _id, ...usuario } = this.toObject();
-//   usuario.uid = _id;
-//   return usuario;
-// };
 
 module.exports = model("Session", SessionSchema);

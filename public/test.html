@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="google-signin-client_id"
+    content="1023916028923-mnn067lcjn3itrr0lo8oj1s07kddgrcj.apps.googleusercontent.com" />
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+  <script>
+    window.onLoadCallback = function () {
+      gapi.auth2.init({
+        client_id: '470327454511-7f8fpjerqbhpjkg6qlj7j7acnif9pfjp.apps.googleusercontent.com'
+      });
+    }
+  </script>
+</body>
+
+</html>

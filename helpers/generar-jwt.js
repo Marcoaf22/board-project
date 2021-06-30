@@ -37,6 +37,20 @@ const getSession = async (code) => {
   return user;
 };
 
+const sessionFinish = async (code) => {
+  try {
+    await Session.findOneAndUpdate(
+      { code },
+      { active: false, date_finish: Date.now() }
+    );
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+  //   console.log(user);
+  return true;
+};
+
 const saveDiagram = async (data, diagram_id) => {
   console.log(data);
   console.log(diagram_id);
@@ -67,4 +81,5 @@ module.exports = {
   generarJWT,
   getUser,
   saveDiagram,
+  sessionFinish,
 };

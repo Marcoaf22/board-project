@@ -60,8 +60,8 @@ class Server {
     //Aceptar form
     this.app.use(express.urlencoded({ extended: true }));
 
-    //Sessions
-    //Almacenar sessiones
+    // Sessions
+    // Almacenar sessiones
     const store = new MongoDBStore({
       uri: process.env.MONGODB_CNN,
       collection: "mySessions",

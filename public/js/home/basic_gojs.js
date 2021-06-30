@@ -24,8 +24,6 @@ function init(session, user) {
 
   var $ = go.GraphObject.make; // for conciseness in defining templates
 
-  // $(go.Diagram, "myDiagramDiv", {});
-
   myDiagram = $(
     go.Diagram,
     "myDiagramDiv", // create a Diagram for the DIV HTML element
@@ -35,23 +33,16 @@ function init(session, user) {
       },
       // allow double-click in background to create a new node
       "clickCreatingTool.archetypeNodeData": { text: "Node", color: "white" },
-
       // allow Ctrl-G to call groupSelection()
       "commandHandler.archetypeGroupData": {
         text: "Group",
         isGroup: true,
         color: "blue",
       },
-
       // enable undo & redo
       "undoManager.isEnabled": true,
     }
   );
-
-  // myDiagram.addModelChangedListener((e) => {
-  //   console.log("hola desde el listener");
-  //   e.model.toJson();
-  // });
 
   // let seend = false;
   let testEvent = true;
@@ -59,20 +50,6 @@ function init(session, user) {
   const btnLoad = document.getElementById("btn4");
 
   btnSave.addEventListener("click", async (e) => {
-    // alertify.prompt(
-    //   "Guardar diagrama",
-    //   "Escriba el nombre del diagrama",
-    //   "",
-    //   function (evt, value) {
-    //     console.log("guardando: ", value);
-    //     socket.emit("guardar diagrama", value);
-    //     alertify.success("Diagrama guardado");
-    //   },
-    //   function () {
-    //     alertify.error("Cancel");
-    //   }
-    // );
-
     const { value: name } = await Swal.fire({
       title: "Guardar diagrama",
       input: "text",
@@ -151,6 +128,10 @@ function init(session, user) {
   console.log(user.uid);
   console.log(session.user_id);
 
+  // socket.on("logout", (data) => {
+
+  // });
+
   const cargarDiagrama = () => {
     console.log("EJECUTANDO EL PRIMERO CARGARDIAGRAMA");
     socket.emit("cargar_diagrama", (data) => {
@@ -184,14 +165,14 @@ function init(session, user) {
   // });
 
   myDiagram.addModelChangedListener(function (e) {
-    console.log("EVENT ADDMODELCHANGED");
+    // console.log("EVENT ADDMODELCHANGED");
     // console.log("Enviar: " + seend);
     if (e.isTransactionFinished && testEvent) {
       let json = e.model.toJson();
       var diagr = e.model.toIncrementalJson(e);
-      console.log(diagr);
+      // console.log(diagr);
       // if (seend) {
-      console.log("EVENT TEST: " + testEvent);
+      // console.log("EVENT TEST: " + testEvent);
       socket.emit("diagrama", diagr, json);
       // }
     }
@@ -217,17 +198,72 @@ function init(session, user) {
   const cargar = (data) => {
     // myDiagram.model = go.Model.fromJson(data);
     myDiagram.model.applyIncrementalJson(data);
-    //setTimeout(cargar, 300);
   };
 
-  // socket.once("diagrama", (data) => {
-  //   console.log("En el evento diagrama");
-  //   var modelAsText = data;
-  //   myDiagram.removeModelChangedListener((e) => {
-  //     console.log("DESDE REMOVER");
-  //   });
-  //   myDiagram.model = go.Model.fromJson(modelAsText);
-  // });
+  function myCallback(blob) {
+    var url = window.URL.createObjectURL(blob);
+    var filename = "myBlobFile.png";
+
+    var a = document.createElement("a");
+    a.style = "display: none";
+    a.href = url;
+    a.download = filename;
+
+    // IE 11
+    if (window.navigator.msSaveBlob !== undefined) {
+      window.navigator.msSaveBlob(blob, filename);
+      return;
+    }
+
+    document.body.appendChild(a);
+    requestAnimationFrame(function () {
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    });
+  }
+
+  function makeBlob() {
+    var blob = myDiagram.makeImageData({
+      background: "white",
+      returnType: "blob",
+      callback: myCallback,
+    });
+  }
+
+  function myCallback(blob) {
+    var url = window.URL.createObjectURL(blob);
+    var filename = "mySVGFile.svg";
+
+    var a = document.createElement("a");
+    a.style = "display: none";
+    a.href = url;
+    a.download = filename;
+
+    // IE 11
+    if (window.navigator.msSaveBlob !== undefined) {
+      window.navigator.msSaveBlob(blob, filename);
+      return;
+    }
+
+    document.body.appendChild(a);
+    requestAnimationFrame(function () {
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    });
+  }
+
+  function makeSvg() {
+    var svg = myDiagram.makeSvg({ scale: 1, background: "white" });
+    var svgstr = new XMLSerializer().serializeToString(svg);
+    var blob = new Blob([svgstr], { type: "image/svg+xml" });
+    myCallback(blob);
+  }
+
+  document
+    .getElementById("saveImage")
+    .addEventListener("click", (e) => makeBlob());
 
   // Define the appearance and behavior for Nodes:
 
@@ -346,6 +382,9 @@ function init(session, user) {
     return str;
   }
 
+  //TODO storage representation of Points/Sizes/Rects/Margins/Spots is as strings, not objects:
+  // new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify)
+
   // These nodes have text surrounded by a rounded rectangle
   // whose fill color is bound to the node data.
   // The user can drag a node by dragging its TextBlock label.
@@ -406,14 +445,6 @@ function init(session, user) {
     // Tooltip info for a link data object
     return "Link:\nfrom " + d.from + " to " + d.to;
   }
-
-  // myDiagram.nodeTemplate = $(
-  //   go.Node,
-  //   "Auto",
-  //   new go.Binding("location", "loc", go.Point.parse).makeTwoWay(
-  //     go.Point.stringify
-  //   )
-  // );
 
   // The link shape and arrowhead have their stroke brush data bound to the "color" property
   myDiagram.linkTemplate = $(
