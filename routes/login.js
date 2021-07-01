@@ -8,6 +8,10 @@ const { googleVerify } = require("../helpers/google-verify");
 
 const router = Router();
 
+router.get("/", (req, res) => {
+  res.redirect("/home");
+});
+
 router.get("/signup", (req, res) => {
   res.render("users/signup");
 });

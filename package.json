@@ -28,7 +28,6 @@
     "gojs": "^2.1.43",
     "google-auth-library": "^6.1.6",
     "hbs": "^4.1.2",
-    "jointjs": "^3.3.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.15",
     "postcss-cli": "^8.3.1",

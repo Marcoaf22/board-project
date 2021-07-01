@@ -418,9 +418,10 @@ const init = (socket) => {
     });
 
     if (name) {
-      console.log("guardando: ", name);
+      // console.log("guardando: ", name);
       socket.emit("guardar diagrama", name);
-      alertify.success("Diagrama guardado");
+      console.log(myDiagram.model.toJson());
+      // alertify.success("Diagrama guardado");
 
       const Toast = Swal.mixin({
         toast: true,
@@ -638,7 +639,39 @@ const init = (socket) => {
 
   // cargarDiagrama();
 
+  const newUser = (id, name, img) => {
+    return `<div class="flex flex-col w-full" id="${id}">
+    <div class="cursor-pointer w-full border-gray-100 rounded-t border-b hover:bg-teal-100">
+      <div
+        class="flex w-full items-center p-2 pl-2 border-transparent border-l-2 relative hover:border-teal-100">
+        <div class="w-6 flex flex-col items-center">
+          <div
+            class="flex relative w-5 h-5 bg-orange-500 justify-center items-center m-1 mr-2 w-4 h-4 mt-1 rounded-full ">
+            <img class="rounded-full" alt="A"
+              src="${
+                img
+                  ? img
+                  : "https://www.seekpng.com/png/detail/73-730482_existing-user-default-avatar.png"
+              }">
+          </div>
+        </div>
+        <div class="w-full items-center flex">
+          <div class="mx-2 -mt-1  ">${name}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>`;
+  };
+
   socket.on("login", (data) => {
+    const ele = document.createElement("DIV");
+
+    ele.classList.add("flex", "flex-col", "w-full");
+    ele.innerHTML = newUser(data.uid, data.user, data.img);
+
+    const list = document.getElementById("usuarios-conectados");
+    list.appendChild(ele);
     alertify.notify(data.user + " se ha unido", "custom", 2);
     // const Toast = Swal.mixin({
     //   toast: true,
@@ -671,7 +704,10 @@ const init = (socket) => {
         text: "La sesion ha terminado!",
       });
     } else {
-      alertify.notify(data.user + " se ha unido", "custo2", 2);
+      let ele = document.getElementById(data.uid);
+      let padre = ele.parentNode;
+      padre.removeChild(ele);
+      alertify.notify(data.user + " se ha desconectado", "custo2", 2);
     }
 
     // alertify.error(data.user + " se ha salido");

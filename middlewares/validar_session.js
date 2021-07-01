@@ -11,11 +11,11 @@ const validar_session = async (req = request, res = response, next) => {
   // console.log("code:" + code);
   const session = await Session.findOne({ code: code });
 
-  console.log("session: " + session);
+  // console.log("session: " + session);
   // console.log("session: " + session.active);
 
   if (Object.keys(session).length === 0 || !session.active) {
-    console.log("LA SESSION NO ES VALIDA");
+    // console.log("LA SESSION NO ES VALIDA");
     // return res.status(401).json({
     //   message: "El codigo de la sesion no exite",
     // });
