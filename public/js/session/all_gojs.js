@@ -451,6 +451,14 @@ const init = (socket) => {
     });
   }
 
+  socket.on("holamundo", (data) => {
+    console.log(data.sid);
+    console.log("ESCUCHANDO HOLA MUNDO");
+    if (btnLoad) {
+      socket.emit("enviarDiagrama", data);
+    }
+  });
+
   document.getElementById("btnExit").addEventListener("click", (e) => {
     Swal.fire({
       title: "¿Estas seguro de salir?",
@@ -492,31 +500,22 @@ const init = (socket) => {
     testEvent = true;
   });
 
-  const cargarDiagrama = () => {
+  const cargarDiagrama = (dato) => {
     console.log("EJECUTANDO EL PRIMERO CARGAR DIAGRAMA");
-    socket.emit("cargar_diagrama", (data) => {
-      console.log("CARGANDO DIAGRAMA COMPLETO");
+    if (dato) {
       testEvent = false;
-      myDiagram.model = go.Model.fromJson(data);
+      myDiagram.model = go.Model.fromJson(dato);
       testEvent = true;
-    });
+    } else {
+      socket.emit("cargar_diagrama", (data) => {
+        console.log("CARGANDO DIAGRAMA COMPLETO");
+        testEvent = false;
+        myDiagram.model = go.Model.fromJson(data);
+        testEvent = true;
+      });
+    }
   };
 
-  // console.log("Es anfitrion ");
-
-  // if (socket.isAnfitrion) {
-  //   console.log("true");
-  //   // socket.emit("select diagram", myDiagram.model.toJson());
-  // } else {
-  //   cargarDiagrama();
-  //   console.log("false");
-  // }
-
-  // const test = () => {
-  //   console.log("TEST");
-
-  // };
-  // test();
   // cargarDiagrama();
 
   myDiagram.addModelChangedListener(function (e) {
@@ -529,12 +528,6 @@ const init = (socket) => {
     }
   });
 
-  // function hola() {
-  // console.log("emitiendo evento testo");
-  // socket.emit("testo", { data: "me escuchas?" });
-  // }
-  // hola();
-
   socket.on("cargar_diagrama", (data) => {
     console.log("CARGANDO DIAGRAMA COMPLETO");
     testEvent = false;
@@ -543,7 +536,7 @@ const init = (socket) => {
   });
 
   socket.on("diagrama", (data) => {
-    console.log("SOCKET 'DIAGRAMA'");
+    // console.log("SOCKET: 'DIAGRAMA'");
     testEvent = false;
     // console.log("EVENT TEST: " + testEvent);
     cargar(data);
@@ -561,13 +554,19 @@ const init = (socket) => {
   graph.linkKeyProperty = "idForIncrement";
   myDiagram.model = graph;
 
-  console.log("EMITIENDO EVENTO TESTO");
   socket.on("isAnfitrion", (data) => {
+    console.log("EVENTO: ISANFITRION");
     if (!data.data) {
       console.log("ejecutando cargar diagrama desde isAnfitrion");
       cargarDiagrama();
     }
     console.log("soy un anfitrion ", data.data);
+    console.log("EVENTO FINISH: ISANFITRION");
+  });
+
+  socket.on("recibilo", (dato) => {
+    // console.log("EVENTO: RECIBILO ", dato);
+    cargarDiagrama(dato);
   });
 
   // PARA GUARDAR IMAGEN, SVG
@@ -664,6 +663,15 @@ const init = (socket) => {
   </div>`;
   };
 
+  socket.on("pedir_diagrama", (data) => {
+    console.log("ANFITRION PASAME DIAGRAMA");
+    socket.emit("enviar_diagrama", data);
+  });
+
+  socket.on("enviar_first_diagrama", (data) => {
+    console.log(data);
+  });
+
   socket.on("login", (data) => {
     const ele = document.createElement("DIV");
 
@@ -672,6 +680,7 @@ const init = (socket) => {
 
     const list = document.getElementById("usuarios-conectados");
     list.appendChild(ele);
+    // socket.emit("enviar_first_diagrama", { msg: "hola" });
     alertify.notify(data.user + " se ha unido", "custom", 2);
     // const Toast = Swal.mixin({
     //   toast: true,

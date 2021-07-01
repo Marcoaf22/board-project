@@ -37,7 +37,7 @@ const socketController = (io) => {
     //   console.log(hola);
     // });
 
-    socket.join(room);
+    socket.join(room, uid);
 
     //A LOS USUARIOS SE LE ENVIA EL DIAGRAMA
     if (!socket.isAnfitrion) {
@@ -51,19 +51,21 @@ const socketController = (io) => {
         callback(diagrama);
         console.log("EVENTO FINISH: CARGAR_DIAGRAMA - ", socket.name);
       });
-
       // io.to('room')("cargar_diagrama", (callback) => {
       //   callback(io.diagrama);
       // });
     }
 
-    socket.emit("isAnfitrion", { data: socket.isAnfitrion });
+    // socket.emit("isAnfitrion", { data: socket.isAnfitrion });
 
     // console.log("DEFINIENDO EL EVENTO TESTO");
-    socket.on("testo", async (data) => {
-      console.log("escuchando testo");
-      console.log(data);
-    });
+    // socket.on("testo", async (data) => {
+    //   console.log("escuchando testo");
+    //   console.log(data);
+    // });
+
+    console.log("emitiendo soy_anfitrion");
+    socket.emit("soy_anfitrion", { uid });
 
     socket.on("select diagrama", (data) => {
       if (socket.isAnfitrion) {
@@ -77,16 +79,33 @@ const socketController = (io) => {
     socket.on("diagrama", (lastChanged, complet) => {
       console.log("EVENTO: DIAGRAMA - ", socket.name);
       io.diagrama = complet;
-      console.log("ID");
-      console.log(io.diagrama);
+      // console.log("ID");
+      // console.log(io.diagrama);
       diagrama = complet;
-      console.log("VAR");
-      console.log(diagrama);
+      // console.log("VAR");
+      // console.log(diagrama);
       socket.to(room).emit("diagrama", lastChanged);
       console.log("EVENTO FINISH: DIAGRAMA - ", socket.name);
     });
 
-    socket.to(room).emit("login", { user: name, uid, img });
+    // socket.on("enviar_diagrama", (data) => {
+    //   console.log("EVENT: ENVIAR_DIAGRAMA");
+    //   socket.to(data.id).emit("cargar_primer_diagrama", io.diagrama);
+    // });
+
+    socket.to(room).emit("login", { user: name, uid, img, _id: socket.id });
+
+    socket.to(room).emit("holamundo", { sid: socket.id });
+
+    socket.on("enviarDiagrama", (data) => {
+      console.log("ENVIAR DIAGRAMA FINAL - ", socket.name);
+      console.log(data);
+      socket.to(data.sid).emit("recibilo", io.diagrama);
+    });
+
+    socket.on("recibilo", (data) => {
+      console.log("EVENTO: RECIBILO ", socket.name);
+    });
 
     socket.on("guardar diagrama", (name, diagram_id) => {
       console.log("GUARDANDO DIAGRAMA");
@@ -103,10 +122,6 @@ const socketController = (io) => {
         callback(diagramas);
       });
     });
-
-    // console.log(socket);
-
-    socket.to(room).emit("addUser", { name });
 
     socket.on("disconnect", async () => {
       if (socket.isAnfitrion) {
