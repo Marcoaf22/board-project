@@ -51,6 +51,12 @@ router.post("/signup", async (req, res) => {
   res.redirect("/home");
 });
 
+router.get("/warning", (req, res) => {
+  console.log("EN WARNING");
+  console.log("/session/" + req.query.id);
+  res.redirect("/session/" + req.query.id);
+});
+
 router.post("/signin", async (req, res) => {
   console.log("EN SIGNIN");
   console.log(req.session);

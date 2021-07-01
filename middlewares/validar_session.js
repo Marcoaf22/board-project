@@ -8,6 +8,7 @@ const session = require("../models/session");
 const validar_session = async (req = request, res = response, next) => {
   console.log("VALIDANDO EL CODE DE SESION");
   const code = req.params.id;
+  console.log(req.params);
   // console.log("code:" + code);
   const session = await Session.findOne({ code: code });
 

@@ -24,7 +24,7 @@
 <body class="bg-gray-600">
 
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="#">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -33,23 +33,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          <a class="nav-link" href="#">Teams <span class="sr-only">(current)</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Dropdown
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="#">Action</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-        </li>
+          <a class="nav-link" href="#">perfil</a>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         {{!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> --}}
@@ -59,25 +46,24 @@
     </div>
   </nav>
 
-  <div class="container">
-    <h1>Bienvenido - {{user.name}}</h1>
-
-    <div class="flex justify-center ">
+  <div class="container" style="">
+    <h1 class="mt-24 text-white">Bienvenido - {{user.name}}</h1>
+    <p class="text-yellow-100">Empieza una sesion colaborativa con tus compañeros</p>
+    <div class="flex">
       {{!-- <button type="button" id="create" class="btn btn-primary m-1">Nueva sesion</button>
       <input class="form-control form-control-sm" type="text">
       <button type="button" id="create" class="btn btn-outline-primary m-1">Unirte</button> --}}
 
-      <form class="form-inline ">
-        <div class="form-group mb-2">
-          {{!-- <label for="staticEmail2" class="sr-only">Email</label> --}}
-          <button type="button" id="create" class="btn btn-primary m-1">Nueva sesion</button>
-        </div>
+      <form class="form-inline mt-10">
         <div class="form-group mx-sm-3 mb-2">
+          <button type="button" id="create" class="btn btn-primary m-1">Nueva sesion</button>
           <label for="inputPassword2" class="sr-only">Password</label>
           <input type="password" class="form-control" id="code-session" placeholder="Codigo de sesion">
-          <button type="button" id="unirte" class="btn btn-outline-primary">Unirte</button>
+          <button type="button" id="unirte" class="ml-2 btn btn-outline-primary">Unirte</button>
         </div>
       </form>
+      <img class="ml-40" style="width: 450px;"
+        src="https://www.mortenhansen.com/wp-content/uploads/2018/09/quiz-intro-image-2000x1720.png" alt="">
     </div>
 
     {{!-- <div
@@ -128,7 +114,12 @@
       ele = ele.trim();
       console.log('/session/?id=' + ele)
       if (ele.length == 13) {
-
+        console.log('Enviando ', ele)
+        axios.get('/warning', {
+          params: {
+            id: ele
+          }
+        })
         window.location = '/session?id=' + ele
       }
     })
