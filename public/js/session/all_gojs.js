@@ -517,13 +517,15 @@ const init = (socket) => {
   };
 
   // cargarDiagrama();
-
+  // var one = false;
   myDiagram.addModelChangedListener(function (e) {
     if (e.isTransactionFinished && testEvent) {
+      console.log("EMITIENDO EVENTO: DIAGRAMA");
       let completo = e.model.toJson();
       var parcial = e.model.toIncrementalJson(e);
       socket.emit("diagrama", parcial, completo);
     }
+    // one = true;
   });
 
   socket.on("cargar_diagrama", (data) => {
@@ -544,13 +546,14 @@ const init = (socket) => {
   });
 
   const cargar = (data) => {
-    // myDiagram.model = go.Model.fromJson(data);
     myDiagram.model.applyIncrementalJson(data);
   };
 
+  testEvent = false;
   var graph = new go.GraphLinksModel();
   graph.linkKeyProperty = "idForIncrement";
   myDiagram.model = graph;
+  testEvent = true;
 
   socket.on("isAnfitrion", (data) => {
     console.log("EVENTO: ISANFITRION");

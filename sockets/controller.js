@@ -1,11 +1,9 @@
-const { Session } = require("express-session");
 const {
   getUser,
   getSession,
   saveDiagram,
   getDiagrams,
   sessionFinish,
-  saveDiagramSession,
 } = require("../helpers/generar-jwt");
 
 const socketController = (io) => {
@@ -26,7 +24,7 @@ const socketController = (io) => {
     let room = socket.handshake.auth.room;
     const { name, img } = await getUser(uid);
     const session = await getSession(room);
-    console.log(session);
+    // let isAnfitrion = uid == session.user_id;
     socket.isAnfitrion = uid == session.user_id;
     socket.name = name;
     console.log(
@@ -58,10 +56,7 @@ const socketController = (io) => {
       // });
     }
 
-    // socket.emit("isAnfitrion", {
-    //   data: socket.isAnfitrion,
-    //   // dato: session.data,
-    // });
+    // socket.emit("isAnfitrion", { data: socket.isAnfitrion });
 
     // console.log("DEFINIENDO EL EVENTO TESTO");
     // socket.on("testo", async (data) => {
@@ -69,31 +64,36 @@ const socketController = (io) => {
     //   console.log(data);
     // });
 
-    console.log("emitiendo soy_anfitrion");
-    socket.emit("soy_anfitrion", { uid });
+    // console.log("emitiendo soy_anfitrion");
+    // socket.emit("soy_anfitrion", { uid });
 
-    socket.on("select diagrama", async (data) => {
+    socket.on("select diagrama", (data) => {
       if (socket.isAnfitrion) {
         console.log("EVENTO: SELECT DIAGRAM");
-        // await saveDiagramSession(session._id, complet);
         io.diagrama = data;
         diagrama = data;
         socket.to(room).emit("nuevo diagrama", io.diagrama);
       }
     });
+    let bool = false;
+    socket.on("diagrama", (lastChanged, complet) => {
+      if (bool) {
+        console.log("EVENTO: DIAGRAMA - ", socket.name);
+        console.log("IO");
+        console.log(io.diagrama);
+        console.log("VAR");
+        console.log(diagrama);
+        console.log("------------------------------------------------");
+        console.log(lastChanged);
+        console.log(complet);
+        io.diagrama = complet;
+        diagrama = complet;
+        console.log("------------------------------------------------");
 
-    socket.on("diagrama", async (lastChanged, complet) => {
-      Session.fin;
-      console.log("EVENTO: DIAGRAMA - ", socket.name);
-      // await saveDiagramSession(session._id, complet);
-      io.diagrama = complet;
-      // console.log("ID");
-      // console.log(io.diagrama);
-      diagrama = complet;
-      // console.log("VAR");
-      // console.log(diagrama);
-      Session.socket.to(room).emit("diagrama", lastChanged);
-      console.log("EVENTO FINISH: DIAGRAMA - ", socket.name);
+        socket.to(room).emit("diagrama", lastChanged);
+        console.log("EVENTO FINISH: DIAGRAMA - ", socket.name);
+      }
+      bool = true;
     });
 
     // socket.on("enviar_diagrama", (data) => {
@@ -106,11 +106,13 @@ const socketController = (io) => {
     socket.to(room).emit("holamundo", { sid: socket.id });
 
     socket.on("enviarDiagrama", (data) => {
-      console.log("ENVIAR DIAGRAMA FINAL - ", socket.name);
-      console.log(data);
+      console.log("EVENTO: ENVIARDIAGRAMA INICIO - ", socket.name);
+
+      console.log("LOS DATOS A ENVIAR");
       console.log(io.diagrama);
+      console.log(diagrama);
       socket.to(data.sid).emit("recibilo", io.diagrama);
-      console.log("ENVIAR DIAGRAMA FINAL FINISH- ", socket.name);
+      console.log("EVENTO: ENVIARDIAGRAMA FINAL", socket.name);
     });
 
     socket.on("recibilo", (data) => {
