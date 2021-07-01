@@ -58,10 +58,10 @@ const socketController = (io) => {
       // });
     }
 
-    socket.emit("isAnfitrion", {
-      data: socket.isAnfitrion,
-      dato: session.data,
-    });
+    // socket.emit("isAnfitrion", {
+    //   data: socket.isAnfitrion,
+    //   // dato: session.data,
+    // });
 
     // console.log("DEFINIENDO EL EVENTO TESTO");
     // socket.on("testo", async (data) => {
@@ -75,7 +75,7 @@ const socketController = (io) => {
     socket.on("select diagrama", async (data) => {
       if (socket.isAnfitrion) {
         console.log("EVENTO: SELECT DIAGRAM");
-        await saveDiagramSession(session._id, complet);
+        // await saveDiagramSession(session._id, complet);
         io.diagrama = data;
         diagrama = data;
         socket.to(room).emit("nuevo diagrama", io.diagrama);
@@ -85,7 +85,7 @@ const socketController = (io) => {
     socket.on("diagrama", async (lastChanged, complet) => {
       Session.fin;
       console.log("EVENTO: DIAGRAMA - ", socket.name);
-      await saveDiagramSession(session._id, complet);
+      // await saveDiagramSession(session._id, complet);
       io.diagrama = complet;
       // console.log("ID");
       // console.log(io.diagrama);
@@ -103,7 +103,7 @@ const socketController = (io) => {
 
     socket.to(room).emit("login", { user: name, uid, img, _id: socket.id });
 
-    // socket.to(room).emit("holamundo", { sid: socket.id });
+    socket.to(room).emit("holamundo", { sid: socket.id });
 
     socket.on("enviarDiagrama", (data) => {
       console.log("ENVIAR DIAGRAMA FINAL - ", socket.name);
