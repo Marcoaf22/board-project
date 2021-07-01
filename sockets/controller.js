@@ -79,11 +79,11 @@ const socketController = (io) => {
     socket.on("diagrama", (lastChanged, complet) => {
       console.log("EVENTO: DIAGRAMA - ", socket.name);
       io.diagrama = complet;
-      // console.log("ID");
-      // console.log(io.diagrama);
+      console.log("ID");
+      console.log(io.diagrama);
       diagrama = complet;
-      // console.log("VAR");
-      // console.log(diagrama);
+      console.log("VAR");
+      console.log(diagrama);
       socket.to(room).emit("diagrama", lastChanged);
       console.log("EVENTO FINISH: DIAGRAMA - ", socket.name);
     });
@@ -100,7 +100,9 @@ const socketController = (io) => {
     socket.on("enviarDiagrama", (data) => {
       console.log("ENVIAR DIAGRAMA FINAL - ", socket.name);
       console.log(data);
+      console.log(io.diagrama);
       socket.to(data.sid).emit("recibilo", io.diagrama);
+      console.log("ENVIAR DIAGRAMA FINAL FINISH- ", socket.name);
     });
 
     socket.on("recibilo", (data) => {

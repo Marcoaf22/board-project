@@ -519,8 +519,6 @@ const init = (socket) => {
   // cargarDiagrama();
 
   myDiagram.addModelChangedListener(function (e) {
-    // console.log("EVENT ADDMODELCHANGED");
-    // console.log("Enviar: " + seend);
     if (e.isTransactionFinished && testEvent) {
       let completo = e.model.toJson();
       var parcial = e.model.toIncrementalJson(e);
@@ -565,7 +563,8 @@ const init = (socket) => {
   });
 
   socket.on("recibilo", (dato) => {
-    // console.log("EVENTO: RECIBILO ", dato);
+    console.log("EVENTO: RECIBILO ");
+    console.log(dato);
     cargarDiagrama(dato);
   });
 
@@ -663,14 +662,14 @@ const init = (socket) => {
   </div>`;
   };
 
-  socket.on("pedir_diagrama", (data) => {
-    console.log("ANFITRION PASAME DIAGRAMA");
-    socket.emit("enviar_diagrama", data);
-  });
+  // socket.on("pedir_diagrama", (data) => {
+  //   console.log("ANFITRION PASAME DIAGRAMA");
+  //   socket.emit("enviar_diagrama", data);
+  // });
 
-  socket.on("enviar_first_diagrama", (data) => {
-    console.log(data);
-  });
+  // socket.on("enviar_first_diagrama", (data) => {
+  //   console.log(data);
+  // });
 
   socket.on("login", (data) => {
     const ele = document.createElement("DIV");
@@ -682,23 +681,6 @@ const init = (socket) => {
     list.appendChild(ele);
     // socket.emit("enviar_first_diagrama", { msg: "hola" });
     alertify.notify(data.user + " se ha unido", "custom", 2);
-    // const Toast = Swal.mixin({
-    //   toast: true,
-    //   position: "top-end",
-    //   showConfirmButton: false,
-    //   timer: 3000,
-    //   background: "#FF0000",
-    //   textColor: "#ffffff",
-    //   timerProgressBar: true,
-    //   didOpen: (toast) => {
-    //     toast.addEventListener("mouseenter", Swal.stopTimer);
-    //     toast.addEventListener("mouseleave", Swal.resumeTimer);
-    //   },
-    // });
-
-    // Toast.fire({
-    //   title: "Signed in successfully",
-    // });
   });
 
   socket.on("logout", (data) => {
