@@ -64,22 +64,8 @@ router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
   console.log(email + " " + password);
   try {
-    // Verificar si el email existe
     const user = await User.findOne({ email });
-    // if (!user) {
-    //   return res.status(400).json({
-    //     msg: "Usuario/Contraseñá no son correctos - correo",
-    //   });
-    // }
 
-    // SI el user está activo
-    // if (!user.state) {
-    //   return res.status(400).json({
-    //     msg: "Usuario/Contraseñá no son correctos - estado: false",
-    //   });
-    // }
-
-    // Verificar la contraseña
     const validPassword = bcryptjs.compareSync(password, user.password);
     if (!validPassword) {
       return res.status(400).json({

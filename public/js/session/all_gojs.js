@@ -554,9 +554,10 @@ const init = (socket) => {
 
   socket.on("isAnfitrion", (data) => {
     console.log("EVENTO: ISANFITRION");
+    console.log(data);
     if (!data.data) {
       console.log("ejecutando cargar diagrama desde isAnfitrion");
-      cargarDiagrama();
+      cargarDiagrama(data.dato);
     }
     console.log("soy un anfitrion ", data.data);
     console.log("EVENTO FINISH: ISANFITRION");
@@ -662,15 +663,6 @@ const init = (socket) => {
   </div>`;
   };
 
-  // socket.on("pedir_diagrama", (data) => {
-  //   console.log("ANFITRION PASAME DIAGRAMA");
-  //   socket.emit("enviar_diagrama", data);
-  // });
-
-  // socket.on("enviar_first_diagrama", (data) => {
-  //   console.log(data);
-  // });
-
   socket.on("login", (data) => {
     const ele = document.createElement("DIV");
 
@@ -700,7 +692,5 @@ const init = (socket) => {
       padre.removeChild(ele);
       alertify.notify(data.user + " se ha desconectado", "custo2", 2);
     }
-
-    // alertify.error(data.user + " se ha salido");
   });
 };

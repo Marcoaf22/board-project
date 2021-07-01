@@ -75,6 +75,19 @@ const getDiagrams = async (uid) => {
   return diagramas;
 };
 
+const saveDiagramSession = async (uid, data) => {
+  try {
+    await Session.findByIdAndUpdate(uid, {
+      data: data,
+    });
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+  //   console.log(user);
+  return true;
+};
+
 module.exports = {
   getDiagrams,
   getSession,
@@ -82,4 +95,5 @@ module.exports = {
   getUser,
   saveDiagram,
   sessionFinish,
+  saveDiagramSession,
 };

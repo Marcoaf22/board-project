@@ -13,6 +13,9 @@ const SessionSchema = Schema({
     type: String,
     required: [true, "El codigo es necesario"],
   },
+  data: {
+    type: Object,
+  },
   date_init: {
     type: Date,
     default: Date.now(),
